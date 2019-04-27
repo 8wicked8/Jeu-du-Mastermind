@@ -1,6 +1,7 @@
 from random import *
 import Constante
 
+#----------------------------------------------------
 def creer_une_solution():
     liste_couleurs_reponses=[]
 
@@ -11,6 +12,7 @@ def creer_une_solution():
     
     return liste_couleurs_reponses
 
+#----------------------------------------------------
 def evaluer(proposition, solution):
 
     local_proposition = proposition.copy()
@@ -37,49 +39,3 @@ def evaluer(proposition, solution):
     resultat[1] = Nbs_blanc
 
     return resultat
-
-def demander_couleur(position):
-    couleur = ""
-    index = int(input("Quelle couleur souhaitez-vous en position " +  str(position) + " ? "))
-    couleur = Constante.COULEURS[index]
-    return couleur
-
-
-def demander_proposition():
-    proposition = []
-
-    for i in range(0, len(Constante.COULEURS)):
-        print(i, ' - ', Constante.COULEURS[i])
-
-    for position in range(0, Constante.TAILLE_DE_SOLUTION):
-        proposition.append(demander_couleur(position))
-
-    return proposition
-
-sol = creer_une_solution()
-for z in range(0,12):
-    prop = demander_proposition()
-    print(prop)
-    resultat = evaluer(prop, sol)
-    print(resultat)
-    print("votre nombre de tours restant est " + str(11 - z))
-    if resultat[0] == 5:
-
-        print("vous avez gagné")
-        break
-    elif z == 12:
-        print("Vous avez perdu")
-
-
-
-     
-
-evalu = evaluer(prop, sol)
-
-
-
-
-
-
-
-
