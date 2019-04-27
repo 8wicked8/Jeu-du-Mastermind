@@ -1,5 +1,9 @@
 from tkinter import *
 import Constante
+import Mastermind
+
+solution = []
+propositionsEvaluees = []
 
 root = Tk()
 
@@ -38,19 +42,13 @@ def afficherLigne(canvas, proposition, evaluation, positionX, positionY):
     afficherEvaluation(canvas, evaluation, positionX + len(proposition) * 30 + 20, positionY+5, 10, 5)
 
 #----------------------------------------------------
-def boutonOkClique():
-    print("Bouton OK cliqué")
-
-    proposition = []
-
-    for i in range(0, 6):
-        items = canvas.find_withtag("pion_" + str(i))
-        if len(items) > 0:    
-            couleur = canvas.itemcget(items[0], "fill")
-            proposition.append(couleur)
-
-    print(proposition)
-
+def afficherHistorique(canvas, propositionsEvaluees):
+    y = 100
+    for i in range(0, len(propositionsEvaluees)):
+        proposition = propositionsEvaluees[i][0]
+        evaluation = propositionsEvaluees[i][1]
+        afficherLigne(canvas, proposition, evaluation, 100, y)
+        y = y + 30
 
 #----------------------------------------------------
 def afficherCapture(canvas, positionX, positionY, taille, diametre, intervalle):
@@ -61,6 +59,23 @@ def afficherCapture(canvas, positionX, positionY, taille, diametre, intervalle):
     boutonOk = Button(root, text="OK", command = boutonOkClique)
     canvas.create_window(positionX + (taille + 1) * (diametre + intervalle), positionY - 2, anchor=NW, window=boutonOk)
 
+#----------------------------------------------------
+def boutonOkClique():
+    proposition = []
+
+    for i in range(0, 6):
+        items = canvas.find_withtag("pion_" + str(i))
+        if len(items) > 0:    
+            couleur = canvas.itemcget(items[0], "fill")
+            proposition.append(couleur)
+
+    evaluation = Mastermind.evaluer(proposition, solution)
+
+    propositionsEvaluees.append([proposition, evaluation])
+
+    canvas.delete("all")
+    afficherHistorique(canvas, propositionsEvaluees)
+    afficherCapture(canvas, 100, 410, 5, 20, 10)
 
 #----------------------------------------------------
 def prochaineCouleur(couleur):
@@ -82,14 +97,19 @@ def onClick(event):
         canvas.itemconfig(CURRENT, fill=prochaineCouleur(couleur))
 
 #----------------------------------------------------
-def afficherHistorique(canvas, propositionsEvaluees):
-    y = 100
-    for proposition, evaluation in propositionsEvaluees.items():
-        afficherLigne(canvas, proposition, evaluation, 100, y)
-        y = y + 30
+def run():
+    global solution
+
+    canvas.bind('<Button-1>', onClick)
+
+    solution = Mastermind.creer_une_solution()
+
+    afficherCapture(canvas, 100, 410, 5, 20, 10)
+
+    root.mainloop()
 
 #----------------------------------------------------
-def run():
+def tester():
     canvas.bind('<Button-1>', onClick)
 
     propositionTest1=["black", "black", "yellow", "black", "blue"]

@@ -6,8 +6,8 @@ def creer_une_solution():
     liste_couleurs_reponses=[]
 
     for x in range(0, Constante.TAILLE_DE_SOLUTION):
-        num_coul_de_la_soluce=randint(0,len(Constante.COULEURS)-1)
-        coul_de_la_soluce=Constante.COULEURS[num_coul_de_la_soluce]
+        num_coul_de_la_soluce=randint(0,len(Constante.COULEURS_ANG)-1)
+        coul_de_la_soluce=Constante.COULEURS_ANG[num_coul_de_la_soluce]
         liste_couleurs_reponses.append(coul_de_la_soluce)
     
     return liste_couleurs_reponses

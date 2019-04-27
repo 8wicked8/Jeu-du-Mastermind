@@ -1,11 +1,10 @@
-
 from Mastermind import *
 
 #----------------------------------------------------
 def demander_couleur(position):
     couleur = ""
     index = int(input("Quelle couleur souhaitez-vous en position " +  str(position) + " ? "))
-    couleur = Constante.COULEURS_FR[index]
+    couleur = Constante.COULEURS_ANG[index]
     return couleur
 
 
@@ -13,8 +12,8 @@ def demander_couleur(position):
 def demander_proposition():
     proposition = []
 
-    for i in range(0, len(Constante.COULEURS_FR)):
-        print(i, ' - ', Constante.COULEURS_FR[i])
+    for i in range(0, len(Constante.COULEURS_ANG)):
+        print(i, ' - ', Constante.COULEURS_ANG[i])
 
     for position in range(0, Constante.TAILLE_DE_SOLUTION):
         proposition.append(demander_couleur(position))
