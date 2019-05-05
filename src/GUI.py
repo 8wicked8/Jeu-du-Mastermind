@@ -60,22 +60,51 @@ def afficherCapture(canvas, positionX, positionY, taille, diametre, intervalle):
     canvas.create_window(positionX + (taille + 1) * (diametre + intervalle), positionY - 2, anchor=NW, window=boutonOk)
 
 #----------------------------------------------------
+def afficherTuAsGagne(canvas, positionX, positionY):
+    canvas.create_text(positionX, positionY, text="Tu as gagné")
+    boutonRecommencer = Button(root, text="Recommencer", command = boutonRecommencerClique)
+    canvas.create_window(positionX + 100, positionY, anchor=NW, window=boutonRecommencer)
+
+#----------------------------------------------------
+def afficherTuAsPerdu(canvas, positionX, positionY):
+    canvas.create_text(positionX, positionY, text="Tu as gagné. Non je rigole lol tu as perdu. La solution était")
+    afficherProposition(canvas, solution, positionX, positionY + 20, 20, 10)
+    boutonRecommencer = Button(root, text="Recommencer", command = boutonRecommencerClique)
+    canvas.create_window(positionX, positionY + 30, anchor=NW, window=boutonRecommencer)
+
+#----------------------------------------------------
+def boutonRecommencerClique():
+    global solution
+    solution = Mastermind.creer_une_solution()
+    propositionsEvaluees.clear()
+    canvas.delete("all")
+    afficherCapture(canvas, 100, 410, 5, 20, 10)
+    
+#----------------------------------------------------
 def boutonOkClique():
     proposition = []
 
-    for i in range(0, 6):
+    for i in range(0, Constante.TAILLE_DE_SOLUTION + 1):
         items = canvas.find_withtag("pion_" + str(i))
         if len(items) > 0:    
             couleur = canvas.itemcget(items[0], "fill")
             proposition.append(couleur)
 
-    evaluation = Mastermind.evaluer(proposition, solution)
+    if "grey" not in proposition:
+        evaluation = Mastermind.evaluer(proposition, solution)
 
-    propositionsEvaluees.append([proposition, evaluation])
+        propositionsEvaluees.append([proposition, evaluation])
 
-    canvas.delete("all")
-    afficherHistorique(canvas, propositionsEvaluees)
-    afficherCapture(canvas, 100, 410, 5, 20, 10)
+        canvas.delete("all")
+        afficherHistorique(canvas, propositionsEvaluees)
+
+        if len(propositionsEvaluees) == Constante.NB_TOURS_MAX :
+            afficherTuAsPerdu(canvas, 250, 410)
+        else:
+            if evaluation[0] == Constante.TAILLE_DE_SOLUTION:
+                afficherTuAsGagne(canvas, 250, 410)
+            else:
+                afficherCapture(canvas, 100, 410, 5, 20, 10)
 
 #----------------------------------------------------
 def prochaineCouleur(couleur):

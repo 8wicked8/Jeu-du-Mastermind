@@ -20,6 +20,7 @@ def evaluer(proposition, solution):
 
     resultat = [0, 0]
     Nbs_noir = 0
+
     for i in range(0, len(local_solution)):
         if local_proposition[i] == local_solution[i]:
             Nbs_noir = Nbs_noir+1

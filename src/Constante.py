@@ -1,4 +1,7 @@
 TAILLE_DE_SOLUTION = 5
+
+NB_TOURS_MAX = 1
+
 COULEURS_FR=["bleu","rouge","vert","jaune","orange","noir","blanc","marron"]
 
 COULEURS_ANG=["blue","red","green","yellow","orange","black","white","brown"]

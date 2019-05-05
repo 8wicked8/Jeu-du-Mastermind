@@ -1,4 +1,5 @@
 from Mastermind import *
+import Constante
 
 #----------------------------------------------------
 def demander_couleur(position):
@@ -23,7 +24,7 @@ def demander_proposition():
 #----------------------------------------------------
 def run():
     sol = creer_une_solution()
-    for z in range(0,12):
+    for z in range(0, Constante.NB_TOURS_MAX):
         prop = demander_proposition()
         print(prop)
         resultat = evaluer(prop, sol)
